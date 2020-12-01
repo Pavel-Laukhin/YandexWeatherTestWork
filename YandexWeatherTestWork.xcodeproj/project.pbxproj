@@ -7,12 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E996B5B3257697F4007C80DE /* ViewController+DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E996B5B2257697F4007C80DE /* ViewController+DataSource.swift */; };
+		E996B5B62576983E007C80DE /* ViewController+Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E996B5B52576983E007C80DE /* ViewController+Delegate.swift */; };
+		E996B5BB257698E3007C80DE /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E996B5BA257698E3007C80DE /* TableViewCell.swift */; };
+		E996B5BF25769AFC007C80DE /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = E996B5BE25769AFC007C80DE /* City.swift */; };
+		E996B5C32576A36C007C80DE /* UIView Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = E996B5C22576A36C007C80DE /* UIView Extention.swift */; };
 		E9E1FBB225767E9C00541C07 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E1FBB125767E9C00541C07 /* AppDelegate.swift */; };
 		E9E1FBB625767E9C00541C07 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E1FBB525767E9C00541C07 /* ViewController.swift */; };
 		E9E1FBBB25767EA000541C07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9E1FBBA25767EA000541C07 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E996B5B2257697F4007C80DE /* ViewController+DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+DataSource.swift"; sourceTree = "<group>"; };
+		E996B5B52576983E007C80DE /* ViewController+Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Delegate.swift"; sourceTree = "<group>"; };
+		E996B5BA257698E3007C80DE /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TableViewCell.swift; path = YandexWeatherTestWork/Code/Cells/TableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		E996B5BE25769AFC007C80DE /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		E996B5C22576A36C007C80DE /* UIView Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView Extention.swift"; sourceTree = "<group>"; };
 		E9E1FBAE25767E9C00541C07 /* YandexWeatherTestWork.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YandexWeatherTestWork.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9E1FBB125767E9C00541C07 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E9E1FBB525767E9C00541C07 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -31,6 +41,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E996B5B825769875007C80DE /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				E996B5BA257698E3007C80DE /* TableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		E996B5BD25769AD3007C80DE /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E996B5BE25769AFC007C80DE /* City.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E996B5C52576A39A007C80DE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E996B5C22576A36C007C80DE /* UIView Extention.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		E9E1FBA525767E9C00541C07 = {
 			isa = PBXGroup;
 			children = (
@@ -78,6 +112,9 @@
 			children = (
 				E9E1FBB125767E9C00541C07 /* AppDelegate.swift */,
 				E9E1FBEB257694A400541C07 /* Controllers */,
+				E996B5B825769875007C80DE /* Cells */,
+				E996B5BD25769AD3007C80DE /* Models */,
+				E996B5C52576A39A007C80DE /* Extensions */,
 			);
 			path = Code;
 			sourceTree = "<group>";
@@ -86,6 +123,8 @@
 			isa = PBXGroup;
 			children = (
 				E9E1FBB525767E9C00541C07 /* ViewController.swift */,
+				E996B5B2257697F4007C80DE /* ViewController+DataSource.swift */,
+				E996B5B52576983E007C80DE /* ViewController+Delegate.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -158,7 +197,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E996B5BB257698E3007C80DE /* TableViewCell.swift in Sources */,
 				E9E1FBB625767E9C00541C07 /* ViewController.swift in Sources */,
+				E996B5BF25769AFC007C80DE /* City.swift in Sources */,
+				E996B5B62576983E007C80DE /* ViewController+Delegate.swift in Sources */,
+				E996B5C32576A36C007C80DE /* UIView Extention.swift in Sources */,
+				E996B5B3257697F4007C80DE /* ViewController+DataSource.swift in Sources */,
 				E9E1FBB225767E9C00541C07 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

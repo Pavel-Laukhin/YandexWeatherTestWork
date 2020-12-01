@@ -8,11 +8,18 @@
 import UIKit
 
 final class ViewController: UIViewController {
-
+    
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero)
+        tableView.dataSource = self
+        tableView.delegate = self
+        return tableView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .red
+        navigationItem.title = "Yandex.Weather"
     }
 
 }
