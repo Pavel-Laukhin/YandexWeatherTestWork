@@ -20,14 +20,14 @@ final class TableViewCell: UITableViewCell {
     private lazy var cityNameLabel: UILabel = {
         let label = UILabel()
         label.text = "Moscow"
-        label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         return label
     }()
     
     private lazy var degreeLabel: UILabel = {
         let label = UILabel()
-        label.text = "Moscow"
-        label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        label.text = "+35℃"
+        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         return label
     }()
     
@@ -43,10 +43,8 @@ final class TableViewCell: UITableViewCell {
         
         if city.degree > 0 {
             degreeLabel.text = "+\(city.degree)℃"
-        } else if city.degree < 0 {
-            degreeLabel.text = "-\(city.degree)℃"
         } else {
-            degreeLabel.text = "0℃"
+            degreeLabel.text = "\(city.degree)℃"
         }
     }
     
@@ -59,7 +57,17 @@ final class TableViewCell: UITableViewCell {
         }
         
         NSLayoutConstraint.activate([
-            // add constrains
+            cityNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.offset),
+            cityNameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            
+            degreeLabel.trailingAnchor.constraint(equalTo: weatherConditionImage.leadingAnchor, constant: -Constants.offset),
+            degreeLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            
+            weatherConditionImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.smallOfset),
+            weatherConditionImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.offset),
+            weatherConditionImage.widthAnchor.constraint(equalToConstant: Constants.size),
+            weatherConditionImage.heightAnchor.constraint(equalTo: weatherConditionImage.widthAnchor),
+            weatherConditionImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.smallOfset)
         ])
     }
     
