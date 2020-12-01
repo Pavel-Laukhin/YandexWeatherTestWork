@@ -8,19 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		E9E1FBB225767E9C00541C07 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E1FBB125767E9C00541C07 /* AppDelegate.swift */; };
-		E9E1FBB425767E9C00541C07 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E1FBB325767E9C00541C07 /* SceneDelegate.swift */; };
 		E9E1FBB625767E9C00541C07 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E1FBB525767E9C00541C07 /* ViewController.swift */; };
 		E9E1FBBB25767EA000541C07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9E1FBBA25767EA000541C07 /* Assets.xcassets */; };
-		E9E1FBBE25767EA000541C07 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9E1FBBC25767EA000541C07 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E9E1FBAE25767E9C00541C07 /* YandexWeatherTestWork.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YandexWeatherTestWork.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9E1FBB125767E9C00541C07 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E9E1FBB325767E9C00541C07 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E9E1FBB525767E9C00541C07 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E9E1FBBA25767EA000541C07 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E9E1FBBD25767EA000541C07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E9E1FBBF25767EA000541C07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -54,14 +50,44 @@
 		E9E1FBB025767E9C00541C07 /* YandexWeatherTestWork */ = {
 			isa = PBXGroup;
 			children = (
-				E9E1FBB125767E9C00541C07 /* AppDelegate.swift */,
-				E9E1FBB325767E9C00541C07 /* SceneDelegate.swift */,
-				E9E1FBB525767E9C00541C07 /* ViewController.swift */,
-				E9E1FBBA25767EA000541C07 /* Assets.xcassets */,
-				E9E1FBBC25767EA000541C07 /* LaunchScreen.storyboard */,
-				E9E1FBBF25767EA000541C07 /* Info.plist */,
+				E9E1FBEA2576949300541C07 /* Code */,
+				E9E1FBE82576947200541C07 /* Resources */,
+				E9E1FBE12576938B00541C07 /* Supporting Files */,
 			);
 			path = YandexWeatherTestWork;
+			sourceTree = "<group>";
+		};
+		E9E1FBE12576938B00541C07 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E9E1FBBF25767EA000541C07 /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E9E1FBE82576947200541C07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E9E1FBBA25767EA000541C07 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		E9E1FBEA2576949300541C07 /* Code */ = {
+			isa = PBXGroup;
+			children = (
+				E9E1FBB125767E9C00541C07 /* AppDelegate.swift */,
+				E9E1FBEB257694A400541C07 /* Controllers */,
+			);
+			path = Code;
+			sourceTree = "<group>";
+		};
+		E9E1FBEB257694A400541C07 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E9E1FBB525767E9C00541C07 /* ViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -121,7 +147,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9E1FBBE25767EA000541C07 /* LaunchScreen.storyboard in Resources */,
 				E9E1FBBB25767EA000541C07 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -135,22 +160,10 @@
 			files = (
 				E9E1FBB625767E9C00541C07 /* ViewController.swift in Sources */,
 				E9E1FBB225767E9C00541C07 /* AppDelegate.swift in Sources */,
-				E9E1FBB425767E9C00541C07 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		E9E1FBBC25767EA000541C07 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E9E1FBBD25767EA000541C07 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		E9E1FBC025767EA000541C07 /* Debug */ = {
@@ -276,7 +289,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 367WY2VQ82;
-				INFOPLIST_FILE = YandexWeatherTestWork/Info.plist;
+				INFOPLIST_FILE = "";
+				"INFOPLIST_FILE[sdk=*]" = "YandexWeatherTestWork/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -296,7 +310,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 367WY2VQ82;
-				INFOPLIST_FILE = YandexWeatherTestWork/Info.plist;
+				INFOPLIST_FILE = "";
+				"INFOPLIST_FILE[sdk=*]" = "YandexWeatherTestWork/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
