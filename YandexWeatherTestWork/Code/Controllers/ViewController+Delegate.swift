@@ -16,3 +16,14 @@ extension ViewController: UITableViewDelegate {
     }
     
 }
+
+extension ViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        if let location = searchBar.text, !location.isEmpty {
+            //show window with detailed information
+        }
+    }
+    
+}

@@ -12,4 +12,5 @@ enum Constants {
     static let smallOfset: CGFloat = 8
     static let size: CGFloat = 50
     static let bigSize: CGFloat = 100
+    static let xYandexAPIKey = "23175980-9225-4049-80cf-1cad2dbdbcc1"
 }

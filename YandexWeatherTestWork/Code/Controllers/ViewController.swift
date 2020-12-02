@@ -9,6 +9,12 @@ import UIKit
 
 final class ViewController: UIViewController {
     
+    private lazy var searchBar: UISearchBar = {
+        let bar = UISearchBar()
+        bar.delegate = self
+        return bar
+    }()
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero)
         tableView.dataSource = self
@@ -17,12 +23,22 @@ final class ViewController: UIViewController {
         return tableView
     }()
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.title = "Yandex.Weather"
         addSubviews()
         setupLayout()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        DispatchQueue.global().async {
+            let networkService: NetworkService = NetworkServiceImpl()
+            networkService.getWeather(for: "Москва")
+        }
     }
     
     private func addSubviews() {
@@ -32,9 +48,7 @@ final class ViewController: UIViewController {
     }
     
     private func setupLayout() {
-        
         tableView.toAutoLayout()
-        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
