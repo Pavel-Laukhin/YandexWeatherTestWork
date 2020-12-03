@@ -46,16 +46,6 @@ struct NetworkServiceImpl: NetworkService {
             let decoder = JSONDecoder()
             if let weather = try? decoder.decode(Weather.self, from: data)   {
                 completion(.success(weather))
-//                // Работаем с полученной погодой
-//                print("weather.fact.temp")
-//                print(weather.fact.temp)
-//                print("weather.fact.condition")
-//                print(weather.fact.condition)
-//                print("weather.forecasts.first?.parts.day.tempMax")
-//                print(weather.forecasts.first?.parts.day.tempMax)
-//                print("weather.forecasts.first?.parts.evening.tempMin")
-//                print(weather.forecasts.first?.parts.evening.tempMin)
-
             }
         }
         

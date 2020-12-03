@@ -9,6 +9,8 @@ import UIKit
 
 final class DetailViewController: UIViewController {
     
+    var callback: (() -> Void)?
+    
     private var cities = CitiesImpl.shared
     
     private lazy var cityNameLabel: UILabel = {
@@ -105,8 +107,6 @@ final class DetailViewController: UIViewController {
         view.backgroundColor = .systemBackground
         addSubviewsAndSetToAutoLayout()
         setupLayout()
-        
-        // Тут надо выключать Активити индикатор
     }
     
     private func addSubviewsAndSetToAutoLayout() {
@@ -199,7 +199,11 @@ final class DetailViewController: UIViewController {
                 self.maxDegreeLabel.text = "Макс: ℃"
             }
             
-            // Тут надо показать лейблы и выключить Активити индикатор
+            // После настройки презентуем себя:
+            if let callback = self.callback {
+                print("____________CALLBACK")
+                callback()
+            }
         }
     }
     

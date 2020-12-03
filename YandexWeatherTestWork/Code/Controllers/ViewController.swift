@@ -76,13 +76,20 @@ final class ViewController: UIViewController {
     }
     
     func showDetailWeatherFor(city: String) {
+        ActivityIndicatorViewController.startAnimating(in: self)
         let detailVC = DetailViewController(forCity: city)
-        let navigationVC = UINavigationController(rootViewController: detailVC)
-        let cancelButton = UIBarButtonItem(title: "Отмена", style: .plain, target: self, action: #selector(hideDetailVC))
-        let addButton = UIBarButtonItem(title: "Добавить", style: .done, target: self, action: #selector(hideDetailVC))
-        detailVC.navigationItem.leftBarButtonItem = cancelButton
-        detailVC.navigationItem.rightBarButtonItem = addButton
-        present(navigationVC, animated: true, completion: nil)
+        
+        // Передадим вью контроллеру задачу по остановке активити индикатора и презентации самого себя поверх всех окон:
+        detailVC.callback = { [weak self] in
+            guard let self = self else { return }
+            let navigationVC = UINavigationController(rootViewController: detailVC)
+            let cancelButton = UIBarButtonItem(title: "Отмена", style: .plain, target: self, action: #selector(self.hideDetailVC))
+            let addButton = UIBarButtonItem(title: "Добавить", style: .done, target: self, action: #selector(self.hideDetailVC))
+            detailVC.navigationItem.leftBarButtonItem = cancelButton
+            detailVC.navigationItem.rightBarButtonItem = addButton
+            ActivityIndicatorViewController.stopAnimating(in: self)
+            self.present(navigationVC, animated: true, completion: nil)
+        }
     }
     
     @objc private func hideDetailVC() {

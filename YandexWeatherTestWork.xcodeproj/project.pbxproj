@@ -12,6 +12,7 @@
 		E909FCD5257776E10059A4FA /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = E909FCD4257776E10059A4FA /* Weather.swift */; };
 		E98D38272576AF8E005FC0EB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98D38262576AF8E005FC0EB /* Constants.swift */; };
 		E99238FF257947010072D7B8 /* StringProtocol Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99238FE257947010072D7B8 /* StringProtocol Extension.swift */; };
+		E992390225794F160072D7B8 /* ActivityIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E992390125794F160072D7B8 /* ActivityIndicatorViewController.swift */; };
 		E992BC1A2576B7440001B645 /* Cities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E992BC192576B7440001B645 /* Cities.swift */; };
 		E996B5B3257697F4007C80DE /* ViewController+DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E996B5B2257697F4007C80DE /* ViewController+DataSource.swift */; };
 		E996B5B62576983E007C80DE /* ViewController+Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E996B5B52576983E007C80DE /* ViewController+Delegate.swift */; };
@@ -28,6 +29,7 @@
 		E909FCD4257776E10059A4FA /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		E98D38262576AF8E005FC0EB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E99238FE257947010072D7B8 /* StringProtocol Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringProtocol Extension.swift"; sourceTree = "<group>"; };
+		E992390125794F160072D7B8 /* ActivityIndicatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorViewController.swift; sourceTree = "<group>"; };
 		E992BC192576B7440001B645 /* Cities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cities.swift; sourceTree = "<group>"; };
 		E996B5B2257697F4007C80DE /* ViewController+DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+DataSource.swift"; sourceTree = "<group>"; };
 		E996B5B52576983E007C80DE /* ViewController+Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Delegate.swift"; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				E9E1FBB525767E9C00541C07 /* ViewController.swift */,
+				E992390125794F160072D7B8 /* ActivityIndicatorViewController.swift */,
 				E996B5B2257697F4007C80DE /* ViewController+DataSource.swift */,
 				E996B5B52576983E007C80DE /* ViewController+Delegate.swift */,
 				E909FCCA2576BB3A0059A4FA /* DetailViewController.swift */,
@@ -225,6 +228,7 @@
 				E9E1FBB625767E9C00541C07 /* ViewController.swift in Sources */,
 				E909FCD5257776E10059A4FA /* Weather.swift in Sources */,
 				E996B5B62576983E007C80DE /* ViewController+Delegate.swift in Sources */,
+				E992390225794F160072D7B8 /* ActivityIndicatorViewController.swift in Sources */,
 				E996B5C32576A36C007C80DE /* UIView Extention.swift in Sources */,
 				E996B5B3257697F4007C80DE /* ViewController+DataSource.swift in Sources */,
 				E99238FF257947010072D7B8 /* StringProtocol Extension.swift in Sources */,
