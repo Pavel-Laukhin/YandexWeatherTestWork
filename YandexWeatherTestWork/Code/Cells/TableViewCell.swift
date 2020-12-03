@@ -46,6 +46,12 @@ final class TableViewCell: UITableViewCell {
         return imageView
     }()
     
+    deinit {
+        cityNameLabel.text = nil
+        degreeLabel.text = nil
+        weatherConditionImage.image = nil
+    }
+    
     private func setupViews(for city: String) {
         cityNameLabel.text = city
         
@@ -74,11 +80,11 @@ final class TableViewCell: UITableViewCell {
             degreeLabel.trailingAnchor.constraint(equalTo: weatherConditionImage.leadingAnchor, constant: -Constants.offset),
             degreeLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            weatherConditionImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.smallOfset),
+            weatherConditionImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.smallOffset),
             weatherConditionImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.offset),
             weatherConditionImage.widthAnchor.constraint(equalToConstant: Constants.size),
             weatherConditionImage.heightAnchor.constraint(equalTo: weatherConditionImage.widthAnchor),
-            weatherConditionImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.smallOfset)
+            weatherConditionImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.smallOffset)
         ])
     }
     

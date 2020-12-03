@@ -9,7 +9,7 @@ import UIKit
 
 final class ViewController: UIViewController {
     
-    var cities: Cities = CitiesImpl()
+    var cities = CitiesImpl.shared
     var lastTimeSelectedRowIndexPath: IndexPath?
     let queue = OperationQueue()
     
@@ -76,7 +76,7 @@ final class ViewController: UIViewController {
     }
     
     func showDetailWeatherFor(city: String) {
-        let detailVC = DetailViewController(forCity: "New York")
+        let detailVC = DetailViewController(forCity: city)
         let navigationVC = UINavigationController(rootViewController: detailVC)
         let cancelButton = UIBarButtonItem(title: "Отмена", style: .plain, target: self, action: #selector(hideDetailVC))
         let addButton = UIBarButtonItem(title: "Добавить", style: .done, target: self, action: #selector(hideDetailVC))
@@ -95,13 +95,27 @@ final class ViewController: UIViewController {
     
     func updateUI() {
         let networkService: NetworkService = NetworkServiceImpl()
-        cities.list.forEach { [weak self] city in
-            guard let self = self else { return }
-            networkService.getWeather(for: city) { result in
+//        cities.list.forEach { [weak self] city in
+//            guard let self = self else { return }
+//            networkService.getWeather(for: city) { result in
+//                switch result {
+//                case .success(let weather):
+//                    DispatchQueue.main.async {
+//                        self.cities.addWeatherFor(city: city, weather: weather)
+//                        self.tableView.reloadData()
+//                    }
+//                case .failure(let error):
+//                    print(type(of: self), #function, error.localizedDescription)
+//                }
+//            }
+//        }
+        
+        if let firstCity = cities.list.first {
+            networkService.getWeather(for: firstCity) { result in
                 switch result {
                 case .success(let weather):
                     DispatchQueue.main.async {
-                        self.cities.addWeatherFor(city: city, weather: weather)
+                        self.cities.addWeatherFor(city: firstCity, weather: weather)
                         self.tableView.reloadData()
                     }
                 case .failure(let error):
