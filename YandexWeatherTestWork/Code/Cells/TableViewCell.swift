@@ -9,7 +9,7 @@ import UIKit
 
 final class TableViewCell: UITableViewCell {
     
-    var city: City? {
+    var city: String? {
         didSet {
             guard let city = city else { return }
             setupViews(for: city)
@@ -38,14 +38,14 @@ final class TableViewCell: UITableViewCell {
         return imageView
     }()
     
-    private func setupViews(for city: City) {
-        cityNameLabel.text = city.cityName
+    private func setupViews(for city: String) {
+        cityNameLabel.text = city
         
-        if city.degree > 0 {
-            degreeLabel.text = "+\(city.degree)℃"
-        } else {
-            degreeLabel.text = "\(city.degree)℃"
-        }
+//        if city.degree > 0 {
+//            degreeLabel.text = "+\(city.degree)℃"
+//        } else {
+//            degreeLabel.text = "\(city.degree)℃"
+//        }
     }
     
     private func setupLayout() {

@@ -10,7 +10,7 @@ import CoreLocation
 
 protocol NetworkService {
     
-    func getWeather(for city: String)
+    func getWeather(for city: String, completion: @escaping (Result<Weather, Error>) -> Void)
     
 }
 
@@ -24,12 +24,12 @@ struct NetworkServiceImpl: NetworkService {
     
     private let sharedSession = URLSession.shared
     
-    func getWeather(for city: String) {
+    func getWeather(for city: String, completion: @escaping (Result<Weather, Error>) -> Void) {
         guard let request = getWeatherRequest(for: city) else { return }
         
         let dataTask = sharedSession.dataTask(with: request) { (data, response, error) in
             if let error = error {
-                print(error.localizedDescription)
+                completion(.failure(error))
                 return
             }
             
@@ -39,23 +39,22 @@ struct NetworkServiceImpl: NetworkService {
             
             guard let data = data else {
                 print("no data received")
+                completion(.failure(URLError(.dataNotAllowed)))
                 return
             }
             
             let decoder = JSONDecoder()
-            
-            // Создаем экземпляр погоды:
             if let weather = try? decoder.decode(Weather.self, from: data)   {
-                
-                // Работаем с полученной погодой
-                print("weather.fact.temp")
-                print(weather.fact.temp)
-                print("weather.fact.condition")
-                print(weather.fact.condition)
-                print("weather.forecasts.first?.parts.day.tempMax")
-                print(weather.forecasts.first?.parts.day.tempMax)
-                print("weather.forecasts.first?.parts.evening.tempMin")
-                print(weather.forecasts.first?.parts.evening.tempMin)
+                completion(.success(weather))
+//                // Работаем с полученной погодой
+//                print("weather.fact.temp")
+//                print(weather.fact.temp)
+//                print("weather.fact.condition")
+//                print(weather.fact.condition)
+//                print("weather.forecasts.first?.parts.day.tempMax")
+//                print(weather.forecasts.first?.parts.day.tempMax)
+//                print("weather.forecasts.first?.parts.evening.tempMin")
+//                print(weather.forecasts.first?.parts.evening.tempMin)
 
             }
         }

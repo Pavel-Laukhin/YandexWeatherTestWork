@@ -9,6 +9,10 @@ import UIKit
 
 final class ViewController: UIViewController {
     
+    var cities: Cities = CitiesImpl()
+    var lastTimeSelectedRowIndexPath: IndexPath?
+    let queue = OperationQueue()
+    
     private lazy var searchBar: UISearchBar = {
         let bar = UISearchBar()
         bar.delegate = self
@@ -37,7 +41,17 @@ final class ViewController: UIViewController {
         
         DispatchQueue.global().async {
             let networkService: NetworkService = NetworkServiceImpl()
-            networkService.getWeather(for: "Москва")
+//            networkService.getWeather(for: "Москва") {}
+            // метод, который берет все города из списка, скачивает для них погоду и добавляет в словарь. Далее запускает reloadData у таблицы.
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Делаем так, чтобы строка гасла после появления вью контроллера на экране:
+        if let indexPath = lastTimeSelectedRowIndexPath {
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
     
@@ -63,7 +77,7 @@ final class ViewController: UIViewController {
     }
     
     func showDetailWeatherFor(city: String) {
-        let detailVC = DetailViewController(for: City(cityName: "New York", degree: 11))
+        let detailVC = DetailViewController(forCity: "New York")
         let navigationVC = UINavigationController(rootViewController: detailVC)
         let cancelButton = UIBarButtonItem(title: "Отмена", style: .plain, target: self, action: #selector(hideDetailVC))
         let addButton = UIBarButtonItem(title: "Добавить", style: .done, target: self, action: #selector(hideDetailVC))
@@ -78,6 +92,19 @@ final class ViewController: UIViewController {
     
     @objc private func editMode() {
         tableView.setEditing(true, animated: true)
+    }
+    
+    func updateUI() {
+//        let networkService: NetworkService = NetworkServiceImpl()
+////            networkService.getWeather(for: "Москва") {}
+//        cities.list.forEach { (<#String#>) in
+//            let operation = BlockOperation {
+////                sdfsf
+//            }
+//            operation.completionBlock =
+//            
+//            let group = DispatchGroup
+//        }
     }
 
 }

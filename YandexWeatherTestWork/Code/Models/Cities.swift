@@ -7,21 +7,46 @@
 
 import Foundation
 
-struct Cities {
+protocol Cities {
     
-    static var list: [City] = [
-        City(cityName: "Москва", degree: 0),
-        City(cityName: "Санкт-Петербург", degree: -5),
-        City(cityName: "Самара", degree: -10),
-        City(cityName: "Уфа", degree: 1),
+    var list: [String] { get }
+    var listWithWeather: [String: Weather] { get }
+    var count: Int { get }
+    mutating func add(city: String)
+    mutating func remove(city: String)
+    
+}
+
+struct CitiesImpl: Cities {
+    
+    var list: [String] { return arrayOfCities }
+    var listWithWeather: [String: Weather] { return  dictionaryOfCitiesWithWeather }
+    var count: Int { return arrayOfCities.count }
+    
+    private var arrayOfCities: [String] = [
+        "Москва",
+        "Санкт-Петербург",
+        "Самара",
+        "Уфа",
         
-        City(cityName: "Казань", degree: -2),
-        City(cityName: "Екатеринбург", degree: -5),
-        City(cityName: "Новосибирск", degree: -10),
-        City(cityName: "Иркутск", degree: -15),
+        "Казань",
+        "Екатеринбург",
+        "Новосибирск",
+        "Иркутск",
         
-        City(cityName: "Владивосток", degree: 0),
-        City(cityName: "Сочи", degree: 15),
+        "Владивосток",
+        "Сочи"
     ]
     
+    private var dictionaryOfCitiesWithWeather: [String: Weather] = [:]
+    
+    mutating func add(city: String) {
+        arrayOfCities.append(city)
+    }
+    
+    
+    mutating func remove(city: String) {
+        arrayOfCities.removeAll() { $0 == city}
+    }
+        
 }

@@ -72,10 +72,10 @@ final class DetailViewController: UIViewController {
         return label
     }()
     
-    init(for city: City) {
+    init(forCity: String) {
         super.init(nibName: nil, bundle: nil)
         
-        self.cityNameLabel.text = city.cityName
+        self.cityNameLabel.text = forCity
     }
     
     required init?(coder: NSCoder) {
