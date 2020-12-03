@@ -11,15 +11,22 @@ final class DetailViewController: UIViewController {
     
     private lazy var cityNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Moscow"
-        label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        label.text = "Москва"
+        label.font = UIFont.systemFont(ofSize: 32, weight: .bold)
         return label
     }()
     
     private lazy var degreeLabel: UILabel = {
         let label = UILabel()
         label.text = "+25℃"
-        label.font = UIFont.systemFont(ofSize: 36, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 42, weight: .bold)
+        return label
+    }()
+    
+    private lazy var degreeFeelsLikeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Ощущается как +20℃"
+        label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
         return label
     }()
     
@@ -60,15 +67,15 @@ final class DetailViewController: UIViewController {
     
     private lazy var pressureLabel: UILabel = {
         let label = UILabel()
-        label.text = "Атмосферное давление: 745 мм.рт.ст."
+        label.text = "Атм. давление: 745 мм.рт.ст."
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         return label
     }()
     
-    init(for city: City) {
+    init(forCity: String) {
         super.init(nibName: nil, bundle: nil)
         
-        self.cityNameLabel.text = city.cityName
+        self.cityNameLabel.text = forCity
     }
     
     required init?(coder: NSCoder) {
@@ -78,7 +85,7 @@ final class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         addSubviewsAndSetToAutoLayout()
         setupLayout()
     }
@@ -86,6 +93,7 @@ final class DetailViewController: UIViewController {
     private func addSubviewsAndSetToAutoLayout() {
         [cityNameLabel,
         degreeLabel,
+        degreeFeelsLikeLabel,
         weatherConditionImage,
         minDegreeLabel,
         maxDegreeLabel,
@@ -105,10 +113,13 @@ final class DetailViewController: UIViewController {
             degreeLabel.topAnchor.constraint(equalTo: cityNameLabel.bottomAnchor, constant: Constants.offset),
             degreeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            minDegreeLabel.topAnchor.constraint(equalTo: degreeLabel.bottomAnchor, constant: Constants.smallOfset),
+            degreeFeelsLikeLabel.topAnchor.constraint(equalTo: degreeLabel.bottomAnchor),
+            degreeFeelsLikeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            minDegreeLabel.topAnchor.constraint(equalTo: degreeFeelsLikeLabel.bottomAnchor, constant: Constants.smallOfset),
             minDegreeLabel.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -Constants.offset),
             
-            maxDegreeLabel.topAnchor.constraint(equalTo: degreeLabel.bottomAnchor, constant: Constants.smallOfset),
+            maxDegreeLabel.topAnchor.constraint(equalTo: minDegreeLabel.topAnchor),
             maxDegreeLabel.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: Constants.offset),
 
             weatherConditionImage.topAnchor.constraint(equalTo: minDegreeLabel.bottomAnchor, constant: Constants.smallOfset),

@@ -9,6 +9,17 @@ import UIKit
 
 final class ViewController: UIViewController {
     
+    var cities: Cities = CitiesImpl()
+    var lastTimeSelectedRowIndexPath: IndexPath?
+    let queue = OperationQueue()
+    
+    private lazy var searchBar: UISearchBar = {
+        let bar = UISearchBar()
+        bar.delegate = self
+        bar.placeholder = "Найти город..."
+        return bar
+    }()
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero)
         tableView.dataSource = self
@@ -17,30 +28,87 @@ final class ViewController: UIViewController {
         return tableView
     }()
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Yandex.Weather"
+        navigationItem.title = "Яндекс.Погода"
         addSubviews()
         setupLayout()
-    }
-    
-    private func addSubviews() {
-        [tableView].forEach {
-            view.addSubview($0)
+        
+        let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editMode))
+        navigationItem.rightBarButtonItem = editButton
+        
+        DispatchQueue.global().async { [weak self] in
+            guard let self = self else { return }
+            self.updateUI()
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Делаем так, чтобы строка гасла после появления вью контроллера на экране:
+        if let indexPath = lastTimeSelectedRowIndexPath {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+    }
+    
+    private func addSubviews() {
+        [tableView,
+        searchBar].forEach { view.addSubview($0) }
+    }
+    
     private func setupLayout() {
-        
-        tableView.toAutoLayout()
-        
+        [tableView,
+         searchBar].forEach { $0.toAutoLayout() }
+            
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            searchBar.bottomAnchor.constraint(equalTo: tableView.topAnchor),
+            
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    func showDetailWeatherFor(city: String) {
+        let detailVC = DetailViewController(forCity: "New York")
+        let navigationVC = UINavigationController(rootViewController: detailVC)
+        let cancelButton = UIBarButtonItem(title: "Отмена", style: .plain, target: self, action: #selector(hideDetailVC))
+        let addButton = UIBarButtonItem(title: "Добавить", style: .done, target: self, action: #selector(hideDetailVC))
+        detailVC.navigationItem.leftBarButtonItem = cancelButton
+        detailVC.navigationItem.rightBarButtonItem = addButton
+        present(navigationVC, animated: true, completion: nil)
+    }
+    
+    @objc private func hideDetailVC() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func editMode() {
+        tableView.setEditing(true, animated: true)
+    }
+    
+    func updateUI() {
+        let networkService: NetworkService = NetworkServiceImpl()
+        cities.list.forEach { [weak self] city in
+            guard let self = self else { return }
+            networkService.getWeather(for: city) { result in
+                switch result {
+                case .success(let weather):
+                    DispatchQueue.main.async {
+                        self.cities.addWeatherFor(city: city, weather: weather)
+                        self.tableView.reloadData()
+                    }
+                case .failure(let error):
+                    print(type(of: self), #function, error.localizedDescription)
+                }
+            }
+        }
     }
 
 }
