@@ -13,9 +13,12 @@ final class DetailViewController: UIViewController {
     
     private var cities = CitiesImpl.shared
     
+    /// Переменная, которая нужна для определения способа загрузки контроллера. Если вдруг пользователь нажал на город из таблицы до того, как погода по нему загрузилась, то в открывшемся контроллере будет включен активити индикатор на время скачивания информации о погоде в данном городе.
+    private var isLoadedFromSearchBar = false
+    
     private lazy var cityNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Москва"
+        label.text = ""
         label.font = UIFont.systemFont(ofSize: 32, weight: .bold)
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
@@ -25,7 +28,7 @@ final class DetailViewController: UIViewController {
     
     private lazy var conditionLabel: UILabel = {
         let label = UILabel()
-        label.text = "малооблачно"
+        label.text = ""
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         label.textAlignment = .center
         return label
@@ -33,14 +36,14 @@ final class DetailViewController: UIViewController {
     
     private lazy var degreeLabel: UILabel = {
         let label = UILabel()
-        label.text = "+25°"
+        label.text = "?°"
         label.font = UIFont.systemFont(ofSize: 100)
         return label
     }()
     
     private lazy var degreeFeelsLikeLabel: UILabel = {
         let label = UILabel()
-        label.text = "Ощущается как +20℃"
+        label.text = "Ощущается как ?℃"
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         return label
     }()
@@ -54,14 +57,14 @@ final class DetailViewController: UIViewController {
     
     private lazy var minDegreeLabel: UILabel = {
         let label = UILabel()
-        label.text = "Мин: -35℃"
+        label.text = "Мин: ?℃"
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         return label
     }()
     
     private lazy var maxDegreeLabel: UILabel = {
         let label = UILabel()
-        label.text = "Макс: +35℃"
+        label.text = "Макс: ?℃"
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         return label
     }()
@@ -75,14 +78,14 @@ final class DetailViewController: UIViewController {
     
     private lazy var humidityLabel: UILabel = {
         let label = UILabel()
-        label.text = "Влажность: 40%"
+        label.text = "Влажность: ??%"
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         return label
     }()
     
     private lazy var pressureLabel: UILabel = {
         let label = UILabel()
-        label.text = "Атм. давление: 745 мм.рт.ст."
+        label.text = "Атм. давление: ??? мм.рт.ст."
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         return label
     }()
@@ -166,7 +169,13 @@ final class DetailViewController: UIViewController {
     }
     
     private func setupUI(city: String) {
-        guard let weather = fetchWeather(city: city) else { return }
+        guard let weather = fetchWeather(city: city) else {
+            
+            // Остановливаем активити индикатор и показываем алёрт о том, что город не найден:
+            ActivityIndicatorViewController.stopAnimating()
+            Alert.showUknownLocation()
+            return
+        }
         let condition = setConditionDescription(condition: weather.fact.condition).firstCapitalized
         let temp = weather.fact.temp
         let tempIsFelt = weather.fact.feelsLike
@@ -183,7 +192,7 @@ final class DetailViewController: UIViewController {
             self.conditionLabel.text = condition
             self.degreeLabel.text = temp > 0 ? "+\(temp)°" : "\(temp)°"
             self.degreeFeelsLikeLabel.text = tempIsFelt > 0 ? "+\(tempIsFelt)℃" : "По ощущениям \(tempIsFelt)℃"
-            self.windLabel.text = "Ветер: \(windDirection) \(windValue) м/с"
+            self.windLabel.text = "Ветер: \(windValue) м/с (\(windDirection))"
             self.humidityLabel.text = "Влажность: \(humidity)%"
             self.pressureLabel.text = "Атм. давление: \(pressure) мм.рт.ст."
             
@@ -199,10 +208,12 @@ final class DetailViewController: UIViewController {
                 self.maxDegreeLabel.text = "Макс: ℃"
             }
             
-            // После настройки презентуем себя:
+            // После настройки презентуем себя, если вью контроллер был вызван из сёрч бара, либо выключаем активити индикатор:
             if let callback = self.callback {
-                print("____________CALLBACK")
+                self.isLoadedFromSearchBar = true
                 callback()
+            } else {
+                ActivityIndicatorViewController.stopAnimating(in: self)
             }
         }
     }
@@ -213,10 +224,14 @@ final class DetailViewController: UIViewController {
         if let weatherFromList = cities.listWithWeather[city] {
             cityWeather = weatherFromList
         } else {
+            if !isLoadedFromSearchBar {
+                ActivityIndicatorViewController.startAnimating(in: self)
+            }
             let networkService: NetworkService = NetworkServiceImpl()
             let group = DispatchGroup()
             group.enter()
             networkService.getWeather(for: city) { [weak self] result in
+                guard let self = self else { return }
                 switch result {
                 case .success(let fetchedWeather):
                     cityWeather = fetchedWeather

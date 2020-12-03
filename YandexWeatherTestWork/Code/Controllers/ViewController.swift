@@ -102,27 +102,13 @@ final class ViewController: UIViewController {
     
     func updateUI() {
         let networkService: NetworkService = NetworkServiceImpl()
-//        cities.list.forEach { [weak self] city in
-//            guard let self = self else { return }
-//            networkService.getWeather(for: city) { result in
-//                switch result {
-//                case .success(let weather):
-//                    DispatchQueue.main.async {
-//                        self.cities.addWeatherFor(city: city, weather: weather)
-//                        self.tableView.reloadData()
-//                    }
-//                case .failure(let error):
-//                    print(type(of: self), #function, error.localizedDescription)
-//                }
-//            }
-//        }
-        
-        if let firstCity = cities.list.first {
-            networkService.getWeather(for: firstCity) { result in
+        cities.list.forEach { [weak self] city in
+            guard let self = self else { return }
+            networkService.getWeather(for: city) { result in
                 switch result {
                 case .success(let weather):
                     DispatchQueue.main.async {
-                        self.cities.addWeatherFor(city: firstCity, weather: weather)
+                        self.cities.addWeatherFor(city: city, weather: weather)
                         self.tableView.reloadData()
                     }
                 case .failure(let error):
@@ -130,6 +116,21 @@ final class ViewController: UIViewController {
                 }
             }
         }
+        
+        // MARK: когда нужен всего 1 город
+//        if let firstCity = cities.list.first {
+//            networkService.getWeather(for: firstCity) { result in
+//                switch result {
+//                case .success(let weather):
+//                    DispatchQueue.main.async {
+//                        self.cities.addWeatherFor(city: firstCity, weather: weather)
+//                        self.tableView.reloadData()
+//                    }
+//                case .failure(let error):
+//                    print(type(of: self), #function, error.localizedDescription)
+//                }
+//            }
+//        }
     }
 
 }

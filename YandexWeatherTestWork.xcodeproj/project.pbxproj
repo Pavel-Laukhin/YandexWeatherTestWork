@@ -10,6 +10,7 @@
 		E909FCCB2576BB3A0059A4FA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E909FCCA2576BB3A0059A4FA /* DetailViewController.swift */; };
 		E909FCD12576DA2A0059A4FA /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E909FCD02576DA2A0059A4FA /* NetworkService.swift */; };
 		E909FCD5257776E10059A4FA /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = E909FCD4257776E10059A4FA /* Weather.swift */; };
+		E930F75825797E1B0012FACE /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E930F75725797E1B0012FACE /* Alert.swift */; };
 		E98D38272576AF8E005FC0EB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98D38262576AF8E005FC0EB /* Constants.swift */; };
 		E99238FF257947010072D7B8 /* StringProtocol Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99238FE257947010072D7B8 /* StringProtocol Extension.swift */; };
 		E992390225794F160072D7B8 /* ActivityIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E992390125794F160072D7B8 /* ActivityIndicatorViewController.swift */; };
@@ -27,6 +28,7 @@
 		E909FCCA2576BB3A0059A4FA /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		E909FCD02576DA2A0059A4FA /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		E909FCD4257776E10059A4FA /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		E930F75725797E1B0012FACE /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alert.swift; path = "../../../../../01. Home Work/5 Работа с сетью/Course paper_Course4_Final_Task/Analog of Instagram/Course2FinalTask/Code/Alert.swift"; sourceTree = "<group>"; };
 		E98D38262576AF8E005FC0EB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E99238FE257947010072D7B8 /* StringProtocol Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringProtocol Extension.swift"; sourceTree = "<group>"; };
 		E992390125794F160072D7B8 /* ActivityIndicatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorViewController.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 		E9E1FBEB257694A400541C07 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E930F75725797E1B0012FACE /* Alert.swift */,
 				E9E1FBB525767E9C00541C07 /* ViewController.swift */,
 				E992390125794F160072D7B8 /* ActivityIndicatorViewController.swift */,
 				E996B5B2257697F4007C80DE /* ViewController+DataSource.swift */,
@@ -229,6 +232,7 @@
 				E909FCD5257776E10059A4FA /* Weather.swift in Sources */,
 				E996B5B62576983E007C80DE /* ViewController+Delegate.swift in Sources */,
 				E992390225794F160072D7B8 /* ActivityIndicatorViewController.swift in Sources */,
+				E930F75825797E1B0012FACE /* Alert.swift in Sources */,
 				E996B5C32576A36C007C80DE /* UIView Extention.swift in Sources */,
 				E996B5B3257697F4007C80DE /* ViewController+DataSource.swift in Sources */,
 				E99238FF257947010072D7B8 /* StringProtocol Extension.swift in Sources */,

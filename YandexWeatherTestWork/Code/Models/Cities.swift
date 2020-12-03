@@ -18,7 +18,7 @@ protocol Cities {
     
 }
 
-class CitiesImpl: Cities {
+final class CitiesImpl: Cities {
     
     static let shared: Cities = CitiesImpl()
     
