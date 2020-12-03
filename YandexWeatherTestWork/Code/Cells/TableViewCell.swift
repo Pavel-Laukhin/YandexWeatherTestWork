@@ -17,6 +17,14 @@ final class TableViewCell: UITableViewCell {
         }
     }
     
+    var weather: Weather? {
+        didSet {
+            guard weather != nil,
+                  let city = city else { return }
+            setupViews(for: city)
+        }
+    }
+    
     private lazy var cityNameLabel: UILabel = {
         let label = UILabel()
         label.text = "Moscow"
@@ -41,11 +49,14 @@ final class TableViewCell: UITableViewCell {
     private func setupViews(for city: String) {
         cityNameLabel.text = city
         
-//        if city.degree > 0 {
-//            degreeLabel.text = "+\(city.degree)℃"
-//        } else {
-//            degreeLabel.text = "\(city.degree)℃"
-//        }
+        // Настраиваем погоду:
+        guard let weather = weather else { return }
+        let temp = weather.fact.temp
+        if temp > 0 {
+            degreeLabel.text = "+\(temp)℃"
+        } else {
+            degreeLabel.text = "\(temp)℃"
+        }
     }
     
     private func setupLayout() {

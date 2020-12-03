@@ -15,9 +15,11 @@ extension ViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TableViewCell.self), for: indexPath) as? TableViewCell else { return UITableViewCell() }
-        
-        // Кастомизируем ячейку. Передаю в неё город:
-        cell.city = cities.list[indexPath.row]
+        let city = cities.list[indexPath.row]
+        cell.city = city
+        if let weather = cities.listWithWeather[city] {
+            cell.weather = weather
+        }
         return cell
     }
     

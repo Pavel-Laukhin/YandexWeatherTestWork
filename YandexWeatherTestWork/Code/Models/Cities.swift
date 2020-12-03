@@ -14,6 +14,7 @@ protocol Cities {
     var count: Int { get }
     mutating func add(city: String)
     mutating func remove(city: String)
+    mutating func addWeatherFor(city: String, weather: Weather)
     
 }
 
@@ -47,6 +48,10 @@ struct CitiesImpl: Cities {
     
     mutating func remove(city: String) {
         arrayOfCities.removeAll() { $0 == city}
+    }
+    
+    mutating func addWeatherFor(city: String, weather: Weather) {
+        dictionaryOfCitiesWithWeather[city] = weather
     }
         
 }

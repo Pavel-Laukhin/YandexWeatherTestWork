@@ -39,10 +39,9 @@ final class ViewController: UIViewController {
         let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editMode))
         navigationItem.rightBarButtonItem = editButton
         
-        DispatchQueue.global().async {
-            let networkService: NetworkService = NetworkServiceImpl()
-//            networkService.getWeather(for: "Москва") {}
-            // метод, который берет все города из списка, скачивает для них погоду и добавляет в словарь. Далее запускает reloadData у таблицы.
+        DispatchQueue.global().async { [weak self] in
+            guard let self = self else { return }
+            self.updateUI()
         }
     }
     
@@ -95,16 +94,21 @@ final class ViewController: UIViewController {
     }
     
     func updateUI() {
-//        let networkService: NetworkService = NetworkServiceImpl()
-////            networkService.getWeather(for: "Москва") {}
-//        cities.list.forEach { (<#String#>) in
-//            let operation = BlockOperation {
-////                sdfsf
-//            }
-//            operation.completionBlock =
-//            
-//            let group = DispatchGroup
-//        }
+        let networkService: NetworkService = NetworkServiceImpl()
+        cities.list.forEach { [weak self] city in
+            guard let self = self else { return }
+            networkService.getWeather(for: city) { result in
+                switch result {
+                case .success(let weather):
+                    DispatchQueue.main.async {
+                        self.cities.addWeatherFor(city: city, weather: weather)
+                        self.tableView.reloadData()
+                    }
+                case .failure(let error):
+                    print(type(of: self), #function, error.localizedDescription)
+                }
+            }
+        }
     }
 
 }
