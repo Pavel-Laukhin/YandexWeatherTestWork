@@ -34,7 +34,7 @@ final class TableViewCell: UITableViewCell {
     
     private lazy var degreeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 26, weight: .bold)
         label.isHidden = true
         return label
     }()
@@ -90,11 +90,11 @@ final class TableViewCell: UITableViewCell {
             degreeLabel.trailingAnchor.constraint(equalTo: weatherCondition.leadingAnchor, constant: -Constants.offset),
             degreeLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            weatherCondition.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.smallOffset),
+            weatherCondition.topAnchor.constraint(equalTo: contentView.topAnchor),
             weatherCondition.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.offset),
             weatherCondition.widthAnchor.constraint(equalToConstant: Constants.size),
             weatherCondition.heightAnchor.constraint(equalTo: weatherCondition.widthAnchor),
-            weatherCondition.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.smallOffset),
+            weatherCondition.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.offset),
             
             activityIndicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             activityIndicator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.offset)

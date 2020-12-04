@@ -150,12 +150,12 @@ final class DetailViewController: UIViewController {
             maxDegreeLabel.topAnchor.constraint(equalTo: minDegreeLabel.topAnchor),
             maxDegreeLabel.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: Constants.offset),
 
-            weatherConditionView.topAnchor.constraint(equalTo: minDegreeLabel.bottomAnchor, constant: Constants.smallOffset),
-            weatherConditionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            weatherConditionView.topAnchor.constraint(equalTo: minDegreeLabel.bottomAnchor),
+            weatherConditionView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -Constants.smallOffset),
             weatherConditionView.widthAnchor.constraint(equalToConstant: Constants.bigSize),
             weatherConditionView.heightAnchor.constraint(equalTo: weatherConditionView.widthAnchor),
             
-            windLabel.topAnchor.constraint(equalTo: weatherConditionView.bottomAnchor, constant: Constants.offset),
+            windLabel.topAnchor.constraint(equalTo: weatherConditionView.bottomAnchor, constant: 2 * Constants.offset),
             windLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             humidityLabel.topAnchor.constraint(equalTo: windLabel.bottomAnchor, constant: Constants.smallOffset),
