@@ -163,7 +163,22 @@ final class ViewController: UIViewController {
     }
     
     @objc private func deleteRows() {
-        print("rows deleted")
+        guard let selectedRows = tableView.indexPathsForSelectedRows else { return }
+        var selectedCities: [String] = []
+        for indexPath in selectedRows  {
+            selectedCities.append(cities.list[indexPath.row])
+        }
+        
+        for city in selectedCities {
+            if let index = cities.list.firstIndex(of: city) {
+                cities.removeCity(at: index)
+            }
+        }
+        
+        tableView.beginUpdates()
+        tableView.deleteRows(at: selectedRows, with: .automatic)
+        tableView.endUpdates()
+        navigationItem.leftBarButtonItem?.isEnabled = false
     }
 
 }
