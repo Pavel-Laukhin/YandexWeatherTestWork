@@ -9,7 +9,7 @@ import UIKit
 
 final class DetailViewController: UIViewController {
     
-    var callback: (() -> Void)?
+    var callback: ((UIView, Weather) -> Void)?
     
     private var cities = CitiesImpl.shared
     
@@ -48,11 +48,9 @@ final class DetailViewController: UIViewController {
         return label
     }()
     
-    private lazy var weatherConditionImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.backgroundColor = .systemTeal
-        return imageView
+    private lazy var weatherConditionView: UIView = {
+        let view = UIView()
+        return view
     }()
     
     private lazy var minDegreeLabel: UILabel = {
@@ -96,7 +94,7 @@ final class DetailViewController: UIViewController {
         self.cityNameLabel.text = forCity.capitalized
         DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 0.1) { [weak self] in
             guard let self = self else { return }
-            self.setupUI(city: forCity)
+            self.setupUI(city: forCity.capitalized)
         }
     }
     
@@ -117,7 +115,7 @@ final class DetailViewController: UIViewController {
          conditionLabel,
          degreeLabel,
          degreeFeelsLikeLabel,
-         weatherConditionImage,
+         weatherConditionView,
          minDegreeLabel,
          maxDegreeLabel,
          windLabel,
@@ -152,12 +150,12 @@ final class DetailViewController: UIViewController {
             maxDegreeLabel.topAnchor.constraint(equalTo: minDegreeLabel.topAnchor),
             maxDegreeLabel.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: Constants.offset),
 
-            weatherConditionImage.topAnchor.constraint(equalTo: minDegreeLabel.bottomAnchor, constant: Constants.smallOffset),
-            weatherConditionImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            weatherConditionImage.widthAnchor.constraint(equalToConstant: Constants.bigSize),
-            weatherConditionImage.heightAnchor.constraint(equalTo: weatherConditionImage.widthAnchor),
+            weatherConditionView.topAnchor.constraint(equalTo: minDegreeLabel.bottomAnchor, constant: Constants.smallOffset),
+            weatherConditionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            weatherConditionView.widthAnchor.constraint(equalToConstant: Constants.bigSize),
+            weatherConditionView.heightAnchor.constraint(equalTo: weatherConditionView.widthAnchor),
             
-            windLabel.topAnchor.constraint(equalTo: weatherConditionImage.bottomAnchor, constant: Constants.offset),
+            windLabel.topAnchor.constraint(equalTo: weatherConditionView.bottomAnchor, constant: Constants.offset),
             windLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             humidityLabel.topAnchor.constraint(equalTo: windLabel.bottomAnchor, constant: Constants.smallOffset),
@@ -177,9 +175,6 @@ final class DetailViewController: UIViewController {
             return
         }
         
-        // Сохраняем полученную погоду (на всякий случай, на будущее)
-        saveCityWeatherFor(city, weather: weather)
-        
         // Определяем подробные условия
         let condition = setConditionDescription(condition: weather.fact.condition).firstCapitalized
         let temp = weather.fact.temp
@@ -196,7 +191,7 @@ final class DetailViewController: UIViewController {
             guard let self = self else { return }
             self.conditionLabel.text = condition
             self.degreeLabel.text = temp > 0 ? "+\(temp)°" : "\(temp)°"
-            self.degreeFeelsLikeLabel.text = tempIsFelt > 0 ? "+\(tempIsFelt)℃" : "По ощущениям \(tempIsFelt)℃"
+            self.degreeFeelsLikeLabel.text = tempIsFelt > 0 ? "По ощущениям  +\(tempIsFelt)℃" : "По ощущениям \(tempIsFelt)℃"
             self.windLabel.text = "Ветер: \(windValue) м/с (\(windDirection))"
             self.humidityLabel.text = "Влажность: \(humidity)%"
             self.pressureLabel.text = "Атм. давление: \(pressure) мм.рт.ст."
@@ -213,10 +208,12 @@ final class DetailViewController: UIViewController {
                 self.maxDegreeLabel.text = "Макс: ℃"
             }
             
+            self.fetchAndSetConditionImage(from: weather)
+            
             // После настройки презентуем себя, если вью контроллер был вызван из сёрч бара, либо выключаем активити индикатор:
             if let callback = self.callback {
                 self.isLoadedFromSearchBar = true
-                callback()
+                callback(self.weatherConditionView, weather)
             } else {
                 ActivityIndicatorViewController.stopAnimating(in: self)
             }
@@ -240,6 +237,10 @@ final class DetailViewController: UIViewController {
                 switch result {
                 case .success(let fetchedWeather):
                     cityWeather = fetchedWeather
+                    
+                    // Сохраняем полученную погоду (на всякий случай, на будущее)
+                    self.saveCityWeatherFor(city, weather: fetchedWeather)
+                    
                 case .failure(let error):
                     print(type(of: self), #function, "\(error.localizedDescription)")
                 }
@@ -253,6 +254,22 @@ final class DetailViewController: UIViewController {
     
     private func saveCityWeatherFor(_ city: String, weather: Weather) {
         cities.addWeatherFor(city: city, weather: weather)
+    }
+    
+    private func fetchAndSetConditionImage(from weather: Weather) {
+        DispatchQueue.main.async {  [weak self] in
+            guard let self = self else { return }
+            let conditionIconName = weather.fact.icon
+            if let url = URL(string: "https://yastatic.net/weather/i/icons/blueye/color/svg/\(conditionIconName).svg") {
+                let conditionImage = UIView(SVGURL: url) { image in
+                    image.resizeToFit(self.weatherConditionView.bounds)
+                }
+                DispatchQueue.main.async {  [weak self] in
+                    guard let self = self else { return }
+                    self.weatherConditionView.addSubview(conditionImage)
+                }
+            }
+        }
     }
     
     private func setConditionDescription(condition: String) -> String {

@@ -40,7 +40,7 @@ final class TableViewCell: UITableViewCell {
     }()
     
     private lazy var weatherCondition: UIView = {
-        let view = UIImageView()
+        let view = UIView()
         return view
     }()
     
@@ -103,10 +103,14 @@ final class TableViewCell: UITableViewCell {
     private func fetchAndSetConditionImage(from weather: Weather) {
         let conditionIconName = weather.fact.icon
         if let url = URL(string: "https://yastatic.net/weather/i/icons/blueye/color/svg/\(conditionIconName).svg") {
-            let conditionImage = UIView(SVGURL: url) { image in
-                image.resizeToFit(self.weatherCondition.bounds)
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                let conditionImage = UIView(SVGURL: url) { image in
+                    image.resizeToFit(self.weatherCondition.bounds)
+                }
+                self.weatherCondition.addSubview(conditionImage)
+                self.activityIndicator.turnOff()
             }
-            weatherCondition.addSubview(conditionImage)
         }
     }
     

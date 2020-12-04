@@ -99,14 +99,21 @@ final class ViewController: UIViewController {
         let detailVC = DetailViewController(forCity: city)
         
         // Передадим вью контроллеру задачу по остановке активити индикатора и презентации самого себя поверх всех окон:
-        detailVC.callback = { [weak self] in
+        detailVC.callback = { [weak self] (view, weather) in
             guard let self = self else { return }
+            
+            // Настраиваем навигейшн контроллер, в котором будут две кнопки
             let navigationVC = UINavigationController(rootViewController: detailVC)
             let cancelButton = UIBarButtonItem(title: "Отмена", style: .plain, target: self, action: #selector(self.hideDetailVC))
             let addButton = UIBarButtonItem(title: "Добавить", style: .done, target: self, action: #selector(self.addSearchedCity))
             detailVC.navigationItem.leftBarButtonItem = cancelButton
             detailVC.navigationItem.rightBarButtonItem = addButton
             ActivityIndicatorViewController.stopAnimating(in: self)
+            
+            // Устанавлиаваем значок погодных условий
+            self.fetchAndSetConditionImage(for: view, from: weather)
+            
+            // Презентуем то, что получилось
             self.present(navigationVC, animated: true, completion: nil)
         }
     }
@@ -116,7 +123,7 @@ final class ViewController: UIViewController {
     }
     
     @objc private func addSearchedCity() {
-        guard let searchedCity = searchBar.text else { return }
+        guard let searchedCity = searchBar.text?.capitalized else { return }
         cities.add(city: searchedCity)
         dismiss(animated: true, completion: nil)
         tableView.reloadData()
@@ -170,6 +177,19 @@ final class ViewController: UIViewController {
         tableView.deleteRows(at: selectedRows, with: .automatic)
         tableView.endUpdates()
         navigationItem.leftBarButtonItem?.isEnabled = false
+    }
+    
+    private func fetchAndSetConditionImage(for view: UIView, from weather: Weather) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            let conditionIconName = weather.fact.icon
+            if let url = URL(string: "https://yastatic.net/weather/i/icons/blueye/color/svg/\(conditionIconName).svg") {
+                let conditionImage = UIView(SVGURL: url) { image in
+                    image.resizeToFit(self.view.bounds)
+                }
+                view.addSubview(conditionImage)
+            }
+        }
     }
 
 }
