@@ -35,9 +35,7 @@ final class ViewController: UIViewController {
         navigationItem.title = "Яндекс.Погода"
         addSubviews()
         setupLayout()
-        
-        let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editMode))
-        navigationItem.rightBarButtonItem = editButton
+        addEditButton()
         
         DispatchQueue.global().async { [weak self] in
             guard let self = self else { return }
@@ -75,34 +73,6 @@ final class ViewController: UIViewController {
         ])
     }
     
-    func showDetailWeatherFor(city: String) {
-        if !cities.list.contains(city) {
-            ActivityIndicatorViewController.startAnimating(in: self)
-        }
-        
-        let detailVC = DetailViewController(forCity: city)
-        
-        // Передадим вью контроллеру задачу по остановке активити индикатора и презентации самого себя поверх всех окон:
-        detailVC.callback = { [weak self] in
-            guard let self = self else { return }
-            let navigationVC = UINavigationController(rootViewController: detailVC)
-            let cancelButton = UIBarButtonItem(title: "Отмена", style: .plain, target: self, action: #selector(self.hideDetailVC))
-            let addButton = UIBarButtonItem(title: "Добавить", style: .done, target: self, action: #selector(self.hideDetailVC))
-            detailVC.navigationItem.leftBarButtonItem = cancelButton
-            detailVC.navigationItem.rightBarButtonItem = addButton
-            ActivityIndicatorViewController.stopAnimating(in: self)
-            self.present(navigationVC, animated: true, completion: nil)
-        }
-    }
-    
-    @objc private func hideDetailVC() {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @objc private func editMode() {
-        tableView.setEditing(true, animated: true)
-    }
-    
     func updateUI() {
 //        let networkService: NetworkService = NetworkServiceImpl()
 //        cities.list.forEach { [weak self] city in
@@ -135,6 +105,87 @@ final class ViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    // MARK: - Actions
+    func showDetailWeatherFor(city: String) {
+        if !cities.list.contains(city) {
+            ActivityIndicatorViewController.startAnimating(in: self)
+        }
+        let detailVC = DetailViewController(forCity: city)
+        
+        // Передадим вью контроллеру задачу по остановке активити индикатора и презентации самого себя поверх всех окон:
+        detailVC.callback = { [weak self] in
+            guard let self = self else { return }
+            let navigationVC = UINavigationController(rootViewController: detailVC)
+            let cancelButton = UIBarButtonItem(title: "Отмена", style: .plain, target: self, action: #selector(self.hideDetailVC))
+            let addButton = UIBarButtonItem(title: "Добавить", style: .done, target: self, action: #selector(self.addSearchedCity))
+            detailVC.navigationItem.leftBarButtonItem = cancelButton
+            detailVC.navigationItem.rightBarButtonItem = addButton
+            ActivityIndicatorViewController.stopAnimating(in: self)
+            self.present(navigationVC, animated: true, completion: nil)
+        }
+    }
+    
+    @objc private func hideDetailVC() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func addSearchedCity() {
+        guard let searchedCity = searchBar.text else { return }
+        cities.add(city: searchedCity)
+        dismiss(animated: true, completion: nil)
+        tableView.reloadData()
+    }
+    
+    @objc private func editMode() {
+        tableView.allowsMultipleSelectionDuringEditing = true
+        tableView.setEditing(true, animated: true)
+        
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(cancelButtonAction))
+        navigationItem.rightBarButtonItem = cancelButton
+        addOrRemoveDeleteButton()
+    }
+    
+    @objc private func cancelButtonAction() {
+        tableView.setEditing(false, animated: true)
+        addEditButton()
+        addOrRemoveDeleteButton()
+    }
+    
+    private func addEditButton() {
+        let editButton = UIBarButtonItem(title: "Править", style: .plain, target: self, action: #selector(editMode))
+        navigationItem.rightBarButtonItem = editButton
+    }
+    
+    func addOrRemoveDeleteButton() {
+        if navigationItem.leftBarButtonItem == nil {
+            let deleteButton = UIBarButtonItem(title: "Удалить", style: .plain, target: self, action: #selector(deleteRows))
+            deleteButton.tintColor = .red
+            deleteButton.isEnabled = false
+            navigationItem.leftBarButtonItem = deleteButton
+        } else {
+            navigationItem.leftBarButtonItem = nil
+        }
+    }
+    
+    @objc private func deleteRows() {
+        guard let selectedRows = tableView.indexPathsForSelectedRows else { return }
+        var selectedCities: [String] = []
+        for indexPath in selectedRows  {
+            selectedCities.append(cities.list[indexPath.row])
+        }
+        
+        for city in selectedCities {
+            if let index = cities.list.firstIndex(of: city) {
+                cities.removeCity(at: index)
+            }
+        }
+        
+        tableView.beginUpdates()
+        tableView.deleteRows(at: selectedRows, with: .automatic)
+        tableView.endUpdates()
+        navigationItem.leftBarButtonItem?.isEnabled = false
     }
 
 }

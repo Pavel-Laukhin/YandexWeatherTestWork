@@ -13,14 +13,14 @@ protocol Cities {
     var listWithWeather: [String: Weather] { get }
     var count: Int { get }
     mutating func add(city: String)
-    mutating func remove(city: String)
+    mutating func removeCity(at index: Int)
     mutating func addWeatherFor(city: String, weather: Weather)
     
 }
 
 final class CitiesImpl: Cities {
     
-    static let shared: Cities = CitiesImpl()
+    static var shared: Cities = CitiesImpl()
     
     var list: [String] { return arrayOfCities }
     var listWithWeather: [String: Weather] { return  dictionaryOfCitiesWithWeather }
@@ -50,8 +50,8 @@ final class CitiesImpl: Cities {
     }
     
     
-    func remove(city: String) {
-        arrayOfCities.removeAll() { $0 == city}
+    func removeCity(at index: Int) {
+        arrayOfCities.remove(at: index)
     }
     
     func addWeatherFor(city: String, weather: Weather) {
