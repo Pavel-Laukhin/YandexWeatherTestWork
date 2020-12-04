@@ -18,7 +18,9 @@ protocol Cities {
     
 }
 
-struct CitiesImpl: Cities {
+final class CitiesImpl: Cities {
+    
+    static let shared: Cities = CitiesImpl()
     
     var list: [String] { return arrayOfCities }
     var listWithWeather: [String: Weather] { return  dictionaryOfCitiesWithWeather }
@@ -41,17 +43,28 @@ struct CitiesImpl: Cities {
     
     private var dictionaryOfCitiesWithWeather: [String: Weather] = [:]
     
-    mutating func add(city: String) {
+    private init() {}
+    
+    func add(city: String) {
         arrayOfCities.append(city)
     }
     
     
-    mutating func remove(city: String) {
+    func remove(city: String) {
         arrayOfCities.removeAll() { $0 == city}
     }
     
-    mutating func addWeatherFor(city: String, weather: Weather) {
+    func addWeatherFor(city: String, weather: Weather) {
         dictionaryOfCitiesWithWeather[city] = weather
     }
         
+}
+
+/// Защита от случайного клонирования
+extension CitiesImpl: NSCopying {
+    
+    func copy(with zone: NSZone? = nil) -> Any {
+        return self
+    }
+    
 }
