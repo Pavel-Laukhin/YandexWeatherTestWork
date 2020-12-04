@@ -23,7 +23,6 @@ extension ViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         if let city = searchBar.text, !city.isEmpty {
-            // Тут надо включать активити индикатор
             showDetailWeatherFor(city: city)
         }
     }

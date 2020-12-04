@@ -94,7 +94,7 @@ final class DetailViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         self.cityNameLabel.text = forCity.capitalized
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 0.1) { [weak self] in
             guard let self = self else { return }
             self.setupUI(city: forCity)
         }
