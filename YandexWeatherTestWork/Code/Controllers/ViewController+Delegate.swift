@@ -10,12 +10,35 @@ import UIKit
 extension ViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        lastTimeSelectedRowIndexPath = indexPath
-        let city = cities.list[indexPath.row]
-        let vc = DetailViewController(forCity: city)
-        navigationController?.pushViewController(vc, animated: true)
+        if !tableView.isEditing {
+            lastTimeSelectedRowIndexPath = indexPath
+            let city = cities.list[indexPath.row]
+            let vc = DetailViewController(forCity: city)
+            navigationController?.pushViewController(vc, animated: true)
+        } else if tableView.indexPathsForSelectedRows != nil {
+            navigationItem.leftBarButtonItem?.isEnabled = true
+        }
     }
     
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if tableView.indexPathsForSelectedRows == nil {
+            navigationItem.leftBarButtonItem?.isEnabled = false
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { _, _, complete in
+
+            CitiesImpl.shared.removeCity(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            complete(true)
+        }
+
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        return configuration
+    }
+        
 }
 
 extension ViewController: UISearchBarDelegate {
