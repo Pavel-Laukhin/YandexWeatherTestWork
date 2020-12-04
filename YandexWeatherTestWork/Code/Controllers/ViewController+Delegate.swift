@@ -45,7 +45,7 @@ extension ViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        if let city = searchBar.text, !city.isEmpty {
+        if let city = searchBar.text?.capitalized, !city.isEmpty {
             showDetailWeatherFor(city: city)
         }
     }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftSVG
 
 final class TableViewCell: UITableViewCell {
     
@@ -19,8 +20,7 @@ final class TableViewCell: UITableViewCell {
     
     var weather: Weather? {
         didSet {
-            guard weather != nil,
-                  let city = city else { return }
+            guard let city = city else { return }
             setupViews(for: city)
         }
     }
@@ -34,22 +34,28 @@ final class TableViewCell: UITableViewCell {
     
     private lazy var degreeLabel: UILabel = {
         let label = UILabel()
-        label.text = "+35℃"
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.isHidden = true
         return label
     }()
     
-    private lazy var weatherConditionImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.backgroundColor = .systemTeal
-        return imageView
+    private lazy var weatherCondition: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.turnOn()
+        return indicator
     }()
     
     deinit {
         cityNameLabel.text = nil
         degreeLabel.text = nil
-        weatherConditionImage.image = nil
+        if let subview = weatherCondition.subviews.first {
+            subview.removeFromSuperview()
+        }
     }
     
     private func setupViews(for city: String) {
@@ -63,12 +69,16 @@ final class TableViewCell: UITableViewCell {
         } else {
             degreeLabel.text = "\(temp)℃"
         }
+        degreeLabel.isHidden = false
+        
+        fetchAndSetConditionImage(from: weather)
     }
     
     private func setupLayout() {
         [cityNameLabel,
          degreeLabel,
-         weatherConditionImage].forEach {
+         weatherCondition,
+         activityIndicator].forEach {
             contentView.addSubview($0)
             $0.toAutoLayout()
         }
@@ -77,15 +87,32 @@ final class TableViewCell: UITableViewCell {
             cityNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.offset),
             cityNameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            degreeLabel.trailingAnchor.constraint(equalTo: weatherConditionImage.leadingAnchor, constant: -Constants.offset),
+            degreeLabel.trailingAnchor.constraint(equalTo: weatherCondition.leadingAnchor, constant: -Constants.offset),
             degreeLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            weatherConditionImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.smallOffset),
-            weatherConditionImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.offset),
-            weatherConditionImage.widthAnchor.constraint(equalToConstant: Constants.size),
-            weatherConditionImage.heightAnchor.constraint(equalTo: weatherConditionImage.widthAnchor),
-            weatherConditionImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.smallOffset)
+            weatherCondition.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.smallOffset),
+            weatherCondition.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.offset),
+            weatherCondition.widthAnchor.constraint(equalToConstant: Constants.size),
+            weatherCondition.heightAnchor.constraint(equalTo: weatherCondition.widthAnchor),
+            weatherCondition.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.smallOffset),
+            
+            activityIndicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            activityIndicator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.offset)
         ])
+    }
+    
+    private func fetchAndSetConditionImage(from weather: Weather) {
+        let conditionIconName = weather.fact.icon
+        if let url = URL(string: "https://yastatic.net/weather/i/icons/blueye/color/svg/\(conditionIconName).svg") {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                let conditionImage = UIView(SVGURL: url) { image in
+                    image.resizeToFit(self.weatherCondition.bounds)
+                }
+                self.weatherCondition.addSubview(conditionImage)
+                self.activityIndicator.turnOff()
+            }
+        }
     }
     
 }

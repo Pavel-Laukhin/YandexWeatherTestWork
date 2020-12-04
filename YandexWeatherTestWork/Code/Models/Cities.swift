@@ -46,7 +46,7 @@ final class CitiesImpl: Cities {
     private init() {}
     
     func add(city: String) {
-        arrayOfCities.append(city)
+        arrayOfCities.append(city.capitalized)
     }
     
     
@@ -55,7 +55,7 @@ final class CitiesImpl: Cities {
     }
     
     func addWeatherFor(city: String, weather: Weather) {
-        dictionaryOfCitiesWithWeather[city] = weather
+        dictionaryOfCitiesWithWeather[city.capitalized] = weather
     }
         
 }
