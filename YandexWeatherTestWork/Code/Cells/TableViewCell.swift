@@ -34,8 +34,8 @@ final class TableViewCell: UITableViewCell {
     
     private lazy var degreeLabel: UILabel = {
         let label = UILabel()
-        label.text = "+35℃"
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.isHidden = true
         return label
     }()
     
@@ -69,6 +69,7 @@ final class TableViewCell: UITableViewCell {
         } else {
             degreeLabel.text = "\(temp)℃"
         }
+        degreeLabel.isHidden = false
         
         fetchAndSetConditionImage(from: weather)
     }
