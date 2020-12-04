@@ -119,7 +119,7 @@ final class ViewController: UIViewController {
             guard let self = self else { return }
             let navigationVC = UINavigationController(rootViewController: detailVC)
             let cancelButton = UIBarButtonItem(title: "Отмена", style: .plain, target: self, action: #selector(self.hideDetailVC))
-            let addButton = UIBarButtonItem(title: "Добавить", style: .done, target: self, action: #selector(self.hideDetailVC))
+            let addButton = UIBarButtonItem(title: "Добавить", style: .done, target: self, action: #selector(self.addSearchedCity))
             detailVC.navigationItem.leftBarButtonItem = cancelButton
             detailVC.navigationItem.rightBarButtonItem = addButton
             ActivityIndicatorViewController.stopAnimating(in: self)
@@ -129,6 +129,13 @@ final class ViewController: UIViewController {
     
     @objc private func hideDetailVC() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func addSearchedCity() {
+        guard let searchedCity = searchBar.text else { return }
+        cities.add(city: searchedCity)
+        dismiss(animated: true, completion: nil)
+        tableView.reloadData()
     }
     
     @objc private func editMode() {

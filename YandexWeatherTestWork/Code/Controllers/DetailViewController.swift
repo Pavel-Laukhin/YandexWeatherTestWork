@@ -176,6 +176,11 @@ final class DetailViewController: UIViewController {
             Alert.showUknownLocation()
             return
         }
+        
+        // Сохраняем полученную погоду (на всякий случай, на будущее)
+        saveCityWeatherFor(city, weather: weather)
+        
+        // Определяем подробные условия
         let condition = setConditionDescription(condition: weather.fact.condition).firstCapitalized
         let temp = weather.fact.temp
         let tempIsFelt = weather.fact.feelsLike
@@ -244,6 +249,10 @@ final class DetailViewController: UIViewController {
         }
         
         return cityWeather
+    }
+    
+    private func saveCityWeatherFor(_ city: String, weather: Weather) {
+        cities.addWeatherFor(city: city, weather: weather)
     }
     
     private func setConditionDescription(condition: String) -> String {
