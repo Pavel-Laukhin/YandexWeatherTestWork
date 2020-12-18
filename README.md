@@ -32,6 +32,9 @@ API link - https://yandex.ru/dev/weather/doc/dg/concepts/about-docpage/
 1. Improve the color palette of the application.
 1. Add random motivating expressions to the detail screen. Something like "There is no bad weather!", "There is no bad weather, there is poorly matched clothes!", etc.
 
+### Work example illustration:
+![YandexWeatherTestWork](https://github.com/Pavel-Laukhin/YandexWeatherTestWork/blob/main/illustrativeExample.gif)
+
 -----
 
 ## Тестовое задание
@@ -65,3 +68,6 @@ API link - https://yandex.ru/dev/weather/doc/dg/concepts/about-docpage/
 1. Перенести методы setWindDescription и conditionDescription в отдельные энамы в отдельные файлы.
 1. Улучшить цветовую палитру приложения.
 1. Добавить рандомные мотивирующие выражения на детальный экран. Из серии "У природы нет плохой погоды", "Не бывает плохой погоды, бывает плохо подобранная одежда" и т.п.
+
+### Иллюстрация примера работы:
+![YandexWeatherTestWork](https://github.com/Pavel-Laukhin/YandexWeatherTestWork/blob/main/illustrativeExample.gif)
