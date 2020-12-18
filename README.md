@@ -35,6 +35,10 @@ API link - https://yandex.ru/dev/weather/doc/dg/concepts/about-docpage/
 ### Work example illustration:
 ![YandexWeatherTestWork](https://github.com/Pavel-Laukhin/YandexWeatherTestWork/blob/main/illustrativeExample.gif)
 
+In order for the app to work correctly, **you need to add a key to access the Yandex API.Weather conditions**. You can get it by registering on the developer site: [Yandex.Weather API](https://yandex.ru/dev/weather/).
+
+**To insert the key:** `Constants -> xYandexAPIKey`.
+
 -----
 
 ## Тестовое задание
@@ -71,3 +75,7 @@ API link - https://yandex.ru/dev/weather/doc/dg/concepts/about-docpage/
 
 ### Иллюстрация примера работы:
 ![YandexWeatherTestWork](https://github.com/Pavel-Laukhin/YandexWeatherTestWork/blob/main/illustrativeExample.gif)
+
+Для работы приложения **необходимо добавить ключ для доступа к API Яндекс.Погоды**. Его можно получить, зарегистрировавшись на сайте для разработчиков: [API Яндекс.Погоды](https://yandex.ru/dev/weather/).
+
+**Вставить ключ**: `Constants -> xYandexAPIKey`.
